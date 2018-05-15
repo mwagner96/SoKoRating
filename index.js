@@ -34,5 +34,5 @@ app.get("/ratings", function(req, res){
 });
 
 var server = app.listen(8080, function() {
-  console.log("Server läuft =)")
+  console.log("Server läuft auf Port 8080")
 });
