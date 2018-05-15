@@ -1,0 +1,134 @@
+<html>
+  <head>
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.min.js"
+      integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+      crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.bundle.js"></script>
+      <script type="text/javascript">
+
+        var chart;
+
+        setInterval(function(){
+          $.get("/ratings", function(data){
+            data = JSON.parse(data);
+            ratingData = data;
+            var sum = 0;
+            var cnt = 0;
+            for(i in data){
+              sum += parseInt(i) * data[i];
+              cnt += data[i];
+            }
+
+            $("#avg").html((sum/cnt).toFixed(2));
+            chart.data.datasets[0].data = [data["1"], data["2"], data["3"], data["4"], data["5"]];
+            chart.update();
+          })
+        }, 1000);
+
+        window.onload = function(){
+          var ctx = document.getElementById("canvas");
+
+          chart = new Chart(ctx,{
+            type: 'pie',
+            data: {
+              labels: ["★", "★★", "★★★", "★★★★", "★★★★★"],
+              datasets: [{
+                label: "Bewertungen",
+                data: [0, 0, 0, 0, 0],
+                backgroundColor: [
+                  "purple",
+                  "orangered",
+                  "yellow",
+                  "darkgreen",
+                  "cyan"
+                ],
+                borderWidth: 0
+              }]
+            },
+            options: {
+              maintainAspectRatio: false,
+              legend: {
+                labels: {
+                  fontSize: 16
+                },
+                display: true,
+                position: "bottom"
+              }
+            }
+          });
+
+          setInterval(function(){
+            document.getElementsByTagName("iframe")[0].src = document.getElementsByTagName("iframe")[0].src;
+          }, 30000);
+        }
+      </script>
+      <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
+
+    <style>
+      p {
+        font-size:5em;
+        color:lightgrey;
+        font-family:Arial;
+      }
+      h1 {
+        font-family:Oswald;
+      }
+      body {
+        background-color:#171717;
+        color:lightgrey;
+        text-align: center;
+      }
+      .rate {
+        cursor:pointer;
+        transition: 0.5s;
+      }
+      button{
+        padding: 1em;
+        border-radius: 10px;
+        font-size: 1em;
+        color: #171717;
+        background: #lightgrey;
+        font-family: Oswald;
+        transition: 0.5s;
+      }
+      button:disabled {
+        background:#343434;
+        color:#1d1d1d;
+      }
+
+      #chartCtn{
+        height: 500px;
+      }
+
+      #main{
+        display: flex;
+      }
+
+      #main>div{
+        flex: 1;
+      }
+    </style>
+
+    <title>SoKoRating</title>
+  </head>
+  <body>
+    <h1>#SoKoRating</h1>
+
+    <div id="main">
+      <div id="chart">
+        <div id="chartCtn">
+          <canvas id="canvas" width="200" height="200"></canvas>
+        </div>
+
+        <h1><span id="avg"></span> &bigstar;</h1>
+      </div>
+
+      <div id="twitterfeed">
+        <a class="twitter-timeline" data-dnt="true" href="https://twitter.com/hashtag/SoKoRating" data-widget-id="994206421528047616">#SoKoRating-Tweets</a>
+        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+      </div>
+
+    </div>
+  </body>
+  </html>

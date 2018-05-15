@@ -1,0 +1,88 @@
+<html>
+  <head>
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.min.js"
+      integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+      crossorigin="anonymous"></script>
+      <script type="text/javascript">
+        $(document).ready(function(){
+          var rated;
+          $(".rate").click(function(){
+            $("#knopf").prop("disabled", false);
+            rated = $(this).data("rate");
+            console.log(rated);
+            $(".rate").css("color", "lightgrey");
+            for (i = 1; i <= $(this).data("rate"); i++){
+              $("#rate"+i).css("color","#fb0")
+            }
+          })
+          $("#knopf").click(function(){
+            $.get( "rate/"+rated, function( data ) {
+                //alert( data+" vielen Dank" );
+                $("#thanks").fadeIn();
+                $("#knopf").slideUp();
+            });
+          });
+        })
+      </script>
+      <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
+
+    <style>
+      p {
+        font-size:5em;
+        color:lightgrey;
+        font-family:Arial;
+      }
+      h1 {
+        font-family:Oswald;
+      }
+      body {
+        background-color:#171717;
+        color:lightgrey;
+        text-align: center;
+      }
+      .rate {
+        cursor:pointer;
+        transition: 0.5s;
+      }
+      button{
+        padding: 1em;
+        border-radius: 10px;
+        font-size: 1em;
+        color: #171717;
+        background: #lightgrey;
+        font-family: Oswald;
+        transition: 0.5s;
+      }
+      button:disabled {
+        background:#343434;
+        color:#1d1d1d;
+      }
+      #thanks{
+        display: none;
+        padding: 2em;
+        margin-top: 2em;
+        margin-left: 10%;
+        margin-right: 10%;
+        border-radius: 10px;
+        background-color: rgba(0, 128, 0, 0.3);
+        font-family: arial;
+      }
+    </style>
+
+    <title>SoKoRating</title>
+  </head>
+  <body>
+    <h1>#SoKoRating</h1>
+    <p>
+      <span id="rate1" class="rate" data-rate="1">&bigstar;</span>
+      <span id="rate2" class="rate" data-rate="2">&bigstar;</span>
+      <span id="rate3" class="rate" data-rate="3">&bigstar;</span>
+      <span id="rate4" class="rate" data-rate="4">&bigstar;</span>
+      <span id="rate5" class="rate" data-rate="5">&bigstar;</span>
+    </p>
+    <button id="knopf" disabled="true">Bewertung<br/>absenden</button>
+
+    <div id="thanks">Danke für's Bewerten!<br/><br/><a style="color: lightgrey;" href="https://twitter.com/intent/tweet?text=Ich%20habe%20gerade%20ein%20%23SoKoRating%20abgegeben!">Jetzt auf Twitter teilen <img src="http://www.stickpng.com/assets/images/580b57fcd9996e24bc43c53e.png" style="height:2em; vertical-align:middle"></img></a></div>
+  </body>
+  </html>
